@@ -23,14 +23,7 @@ const initialValues = {
     ballSpeed: 400,
 }
 
-const store = new Proxy(initialValues, {
-    set: function(target, key, value) {
-        const modified = modifier(key, value)
-        called(key, modified)
-        target[key] = modified
-        return true
-    }
-})
+let store;
 
 const center = () => pos(width() / 2 - 5, height() / 2 - 5)
 
@@ -50,13 +43,20 @@ k.scene('welcome', () => {
         pos(width() / 2, height() / 2)
     ])
 
+    add([
+        text('press space', {size:20, font: "sink"}),
+        origin('center'),
+        pos(width() / 2, height() / 2 + height() * 0.2)
+    ])
+
+
     keyDown('space', () => {
         k.go('game')
     })
 })
 
 k.scene('game', () => {
-
+    store = createStore()
 
   layers([
       'background',
@@ -354,4 +354,15 @@ function ui() {
     return function update(key, value) {
         els[key].text = value
     }
+}
+
+function createStore() {
+    return new Proxy({...initialValues}, {
+        set: function(target, key, value) {
+            const modified = modifier(key, value)
+            called(key, modified)
+            target[key] = modified
+            return true
+        }
+    })
 }
