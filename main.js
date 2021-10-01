@@ -34,8 +34,8 @@ const store = new Proxy(initialValues, {
 
 const center = () => pos(width() / 2 - 5, height() / 2 - 5)
 
-loadSprite("pad", './pad.png')
-loadSprite("ball", './ball.png')
+loadSprite("pad", './assets/pad.png')
+loadSprite("ball", './assets/ball.png')
 
 
 k.scene('welcome', () => {
